@@ -1,0 +1,22 @@
+nav {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+ul.navbar-nav {
+  display: flex;
+  gap: 2rem;
+}
+.container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-brand {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+.form-control {
+  width: 500px;
+}

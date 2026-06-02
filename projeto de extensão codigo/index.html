@@ -7,21 +7,81 @@
   <title>Document</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/projeto de extensão codigo/style.css">
 </head>
 
 <body>
   <header>
+    <div class="container-fluid bg-dark d-flex justify-content-between align-items-center p-3">
+      <div class="container-fluid">
+        <a class="navbar-brand bg-white"><img src="/projeto de extensão codigo/img/2972215.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top" /></a>
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search" />
+          <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
-        <img src="#" alt="Logo">
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit"><img src="" alt=""></button>
-        </form>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">mountain</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">speed</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">passeio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">hibrida</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">dobravel</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">elétrica</a>
+          </li>
+        </ul>
       </div>
     </nav>
   </header>
-  <main>
+  <main style="--bs-columns: 3;" class="g-3 row row-cols-1 row-cols-sm-2 row-cols-md-3">
+
+    <div class="g-col-4">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="g-col-4">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+    <div class="g-col-4">
+      <div class="card">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
+    </div>
+
   </main>
   <footer>
   </footer>
