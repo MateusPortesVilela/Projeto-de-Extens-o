@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nova Venda | LojaVendas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div class="app-layout">
+    <div id="sidebar-overlay" class="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150;"></div>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">V</div>
+        <div>
+          <div class="logo-brand">LojaVendas</div>
+          <div class="logo-sub">Sistema Varejo</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-label">Principal</span>
+          <a href="../index.html" class="nav-item" data-page="index">
+            <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+          </a>
+          <a href="vendas.html" class="nav-item active" data-page="vendas">
+            <span class="nav-icon">🛒</span><span class="nav-label">Nova Venda</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Cadastros</span>
+          <a href="clientes.html" class="nav-item" data-page="clientes">
+            <span class="nav-icon">👥</span><span class="nav-label">Clientes</span>
+          </a>
+          <a href="produtos.html" class="nav-item" data-page="produtos">
+            <span class="nav-icon">📦</span><span class="nav-label">Produtos</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Gestão</span>
+          <a href="devolucoes.html" class="nav-item" data-page="devolucoes">
+            <span class="nav-icon">↩️</span><span class="nav-label">Devoluções</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Relatórios</span>
+          <a href="relatorio_diario.html" class="nav-item" data-page="relatorio_diario">
+            <span class="nav-icon">📋</span><span class="nav-label">Diário</span>
+          </a>
+          <a href="relatorio_mensal.html" class="nav-item" data-page="relatorio_mensal">
+            <span class="nav-icon">📊</span><span class="nav-label">Mensal</span>
+          </a>
+          <a href="relatorio_anual.html" class="nav-item" data-page="relatorio_anual">
+            <span class="nav-icon">📈</span><span class="nav-label">Anual</span>
+          </a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle">☰</button>
+          <div>
+            <h1 class="page-title">Nova Venda</h1>
+            <div class="page-subtitle">Registro de vendas diárias</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="date-chip" id="current-date">...</div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <div id="alert-area"></div>
+
+        <!-- Progresso do Limite Diário -->
+        <div class="card mb-6" style="padding: 16px 24px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+            <span class="muted">Vendas Registradas Hoje (Máx 50)</span>
+            <span><strong id="limit-info" style="color:var(--text)">0 / 50</strong></span>
+          </div>
+          <div class="progress-wrap" style="height:8px;border-radius:4px;margin-bottom:6px;">
+            <div class="progress-fill" id="day-bar" style="width:0%;border-radius:4px;"></div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);text-align:right;">
+            <span id="restante-info">50 restantes</span>
+          </div>
+        </div>
+
+        <form id="form-venda">
+          <div class="grid-2">
+            <!-- Dados e Itens -->
+            <div class="card">
+              <div class="card-header">
+                <h2 class="card-title">Dados do Pedido</h2>
+              </div>
+              
+              <div class="form-group mb-6">
+                <label class="form-label">Cliente</label>
+                <select id="sel-cliente" class="form-control" required>
+                  <option value="">Carregando clientes...</option>
+                </select>
+              </div>
+
+              <hr class="divider">
+              <h2 class="card-title" style="font-size:13px;margin-bottom:15px;color:var(--accent-light)">Adicionar Produtos</h2>
+              
+              <div class="form-group">
+                <label class="form-label">Produto</label>
+                <select id="sel-produto" class="form-control">
+                  <option value="">Carregando produtos...</option>
+                </select>
+                <div class="form-hint">Preço unitário: <strong id="preco-unitario" style="color:var(--green)">—</strong></div>
+              </div>
+
+              <div class="form-row-3" style="margin-top:16px;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label class="form-label">Quantidade</label>
+                  <input type="number" id="qtd-item" class="form-control" value="1" min="1">
+                </div>
+                <div></div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <button type="button" id="btn-add-item" class="btn btn-outline" style="height:44px;padding:0 24px;">
+                    + Adicionar Item
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Carrinho -->
+            <div class="card" style="display:flex;flex-direction:column;">
+              <div class="card-header">
+                <h2 class="card-title">Itens da Venda</h2>
+              </div>
+              
+              <div id="itens-container" style="flex:1;">
+                <!-- Itens injetados via JS -->
+              </div>
+
+              <div class="total-box mt-4">
+                <div class="total-label">Total do Pedido:</div>
+                <div class="total-value" id="grand-total">R$ 0,00</div>
+              </div>
+
+              <button type="submit" id="btn-submit-venda" class="btn btn-primary btn-full btn-lg" style="margin-top:20px;">
+                Finalizar Venda
+              </button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initVendas);</script>
+</body>
+</html>

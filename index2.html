@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | LojaVendas</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <div class="app-layout">
+    <!-- Overlay for mobile sidebar -->
+    <div id="sidebar-overlay" class="sidebar-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:150;"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-icon">V</div>
+        <div>
+          <div class="logo-brand">LojaVendas</div>
+          <div class="logo-sub">Sistema Varejo</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <span class="nav-section-label">Principal</span>
+          <a href="index.html" class="nav-item active" data-page="index">
+            <span class="nav-icon">📊</span><span class="nav-label">Dashboard</span>
+          </a>
+          <a href="pages/vendas.html" class="nav-item" data-page="vendas">
+            <span class="nav-icon">🛒</span><span class="nav-label">Nova Venda</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Cadastros</span>
+          <a href="pages/clientes.html" class="nav-item" data-page="clientes">
+            <span class="nav-icon">👥</span><span class="nav-label">Clientes</span>
+          </a>
+          <a href="pages/produtos.html" class="nav-item" data-page="produtos">
+            <span class="nav-icon">📦</span><span class="nav-label">Produtos</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Gestão</span>
+          <a href="pages/devolucoes.html" class="nav-item" data-page="devolucoes">
+            <span class="nav-icon">↩️</span><span class="nav-label">Devoluções</span>
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <span class="nav-section-label">Relatórios</span>
+          <a href="pages/relatorio_diario.html" class="nav-item" data-page="relatorio_diario">
+            <span class="nav-icon">📋</span><span class="nav-label">Diário</span>
+          </a>
+          <a href="pages/relatorio_mensal.html" class="nav-item" data-page="relatorio_mensal">
+            <span class="nav-icon">📊</span><span class="nav-label">Mensal</span>
+          </a>
+          <a href="pages/relatorio_anual.html" class="nav-item" data-page="relatorio_anual">
+            <span class="nav-icon">📈</span><span class="nav-label">Anual</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-text">
+          Projeto Extensão<br>Versão 1.0.0
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle">☰</button>
+          <div>
+            <h1 class="page-title">Dashboard</h1>
+            <div class="page-subtitle">Visão geral do sistema</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="date-chip" id="current-date">Carregando data...</div>
+        </div>
+      </header>
+
+      <div class="page-content">
+        <!-- Resumo -->
+        <div class="stats-grid">
+          <div class="stat-card green">
+            <div class="stat-icon green">💰</div>
+            <div class="stat-info">
+              <div class="stat-label">Vendas Hoje</div>
+              <div class="stat-value" id="stat-total">R$ 0,00</div>
+              <div class="stat-sub">Faturamento diário</div>
+            </div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-icon purple">🛒</div>
+            <div class="stat-info">
+              <div class="stat-label">Pedidos Hoje</div>
+              <div class="stat-value" id="stat-vendas">0</div>
+              <div class="stat-sub">Limite: 50/dia</div>
+            </div>
+          </div>
+
+          <div class="stat-card red">
+            <div class="stat-icon red">↩️</div>
+            <div class="stat-info">
+              <div class="stat-label">Devoluções</div>
+              <div class="stat-value" id="stat-dev">0</div>
+              <div class="stat-sub">Itens devolvidos (Total)</div>
+            </div>
+          </div>
+
+          <div class="stat-card orange">
+            <div class="stat-icon orange">📦</div>
+            <div class="stat-info">
+              <div class="stat-label">Produtos</div>
+              <div class="stat-value" id="stat-produtos">0</div>
+              <div class="stat-sub">Cadastrados no sistema</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- Vendas Recentes -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Últimas Vendas de Hoje</h2>
+              <a href="pages/relatorio_diario.html" class="btn btn-sm btn-ghost">Ver todas</a>
+            </div>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>#ID</th>
+                    <th>Cliente</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody id="recent-tbody">
+                  <tr>
+                    <td colspan="3" style="text-align:center;padding:20px;color:var(--text-muted)">Carregando...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Limite Diário -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Limite de Vendas Diário</h2>
+            </div>
+            <div class="mb-4">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;">
+                <span class="muted">Utilizado: <strong id="pct-label" style="color:var(--text)">0%</strong></span>
+                <span class="muted">Restantes: <strong id="stat-restante" style="color:var(--text)">50</strong></span>
+              </div>
+              <div class="progress-wrap" style="height:12px;border-radius:6px;">
+                <div class="progress-fill" id="limit-bar" style="width:0%;border-radius:6px;"></div>
+              </div>
+            </div>
+            <div class="alert alert-info" style="margin-top:20px;font-size:12px;">
+              ℹ️ A loja possui uma restrição de operação de no máximo 50 vendas por dia. O sistema bloqueia automaticamente novos pedidos ao atingir este limite.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', initDashboard);</script>
+</body>
+
+</html>
