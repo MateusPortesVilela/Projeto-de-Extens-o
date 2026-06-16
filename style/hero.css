@@ -1,0 +1,74 @@
+.hero {
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+
+  gap: 50px;
+  padding: 120px 8%;
+  background:
+    linear-gradient(rgba(8, 95, 66, 0.65), rgba(10, 119, 83, 0.65)),
+    url("/img/skeletal-hand-closeup-empty-clinic.jpg");
+
+  background-size: cover;
+  background-position: center;
+}
+.hero-content h1 {
+  font-size: 3.2rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  color: rgb(255, 255, 255);
+  text-shadow: 2px 2px 4px rgba(5, 5, 5, 4);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.hero-content p {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  color: white;
+  color: #ffffff;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+}
+
+.btn-secondary {
+  background: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-3px);
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+}
