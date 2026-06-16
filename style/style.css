@@ -456,11 +456,12 @@ footer {
 
 @media (max-width: 480px) {
   .hero {
-    padding-top: 140px;
+    padding: 100px 30px 15px 30px;
+    min-height: fit-content;
   }
 
   .hero-buttons {
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .calendar {
@@ -469,5 +470,9 @@ footer {
 
   .stat-card h3 {
     font-size: 2rem;
+  }
+
+  .carousel-section {
+    padding: 15px;
   }
 }
