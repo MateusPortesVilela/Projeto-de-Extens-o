@@ -21,6 +21,7 @@
 .carousel-section {
   padding: 100px 8%;
   text-align: center;
+  background: linear-gradient(135deg, #d3d5d7 0%, #e9ecef 100%);
 }
 
 .carousel-section h2 {
@@ -474,5 +475,128 @@ footer {
 
   .carousel-section {
     padding: 15px;
+  }
+
+  /* =============== SINTOMAS MOBILE APP DESIGN =============== */
+
+  #sintomas {
+    padding: 30px 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  }
+
+  #sintomas h2 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+  }
+
+  .symptoms-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 18px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid var(--primary);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+  }
+
+  .card:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .card i {
+    font-size: 2.2rem;
+    min-width: 50px;
+    text-align: center;
+    margin-bottom: 0;
+    color: var(--primary);
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+  }
+
+  .card p {
+    font-size: 0px;
+  }
+
+  .card button {
+    width: 120px;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    align-self: left;
+  }
+
+  .card button:active {
+    transform: scale(0.95);
+  }
+
+  /* =============== EXERCÍCIOS RECOMENDADOS MOBILE APP DESIGN =============== */
+
+  #exercicios {
+    padding: 10px;
+    background: linear-gradient(135deg, #d3d5d7 0%, #e9ecef 100%);
+  }
+
+  #exercicios h2 {
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+  }
+
+  .exercise-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 0;
+    margin-bottom: 0px;
+    scrollbar-width: none;
+  }
+
+  .exercise-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .exercise-card {
+    min-width: 250px;
+    padding: 18px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid var(--primary);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .exercise-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .exercise-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
   }
 }

@@ -3,6 +3,37 @@
 ========================== */
 
 /* ==========================
+   CARROSSEL DE EXERCÍCIOS
+========================== */
+
+const exerciseGrid = document.querySelector(".exercise-grid");
+const exerciseCards = document.querySelectorAll(".exercise-card");
+const exercisePrevBtn = document.getElementById("exercise-prev");
+const exerciseNextBtn = document.getElementById("exercise-next");
+
+if (exerciseGrid && exerciseCards.length > 0) {
+  const cardWidth = exerciseCards[0].offsetWidth + 25; // Largura do card + gap
+
+  if (exercisePrevBtn) {
+    exercisePrevBtn.addEventListener("click", () => {
+      exerciseGrid.scrollBy({
+        left: -cardWidth,
+        behavior: "smooth",
+      });
+    });
+  }
+
+  if (exerciseNextBtn) {
+    exerciseNextBtn.addEventListener("click", () => {
+      exerciseGrid.scrollBy({
+        left: cardWidth,
+        behavior: "smooth",
+      });
+    });
+  }
+}
+
+/* ==========================
    CARROSSEL
 ========================== */
 
