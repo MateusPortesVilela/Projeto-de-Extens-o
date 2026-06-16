@@ -3,11 +3,11 @@
 -- Schema do Banco de Dados MySQL
 -- ============================================================
 
-CREATE DATABASE IF NOT EXISTS loja_vendas
+CREATE DATABASE IF NOT EXISTS orto_app
   CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 
-USE loja_vendas;
+USE orto_app;
 
 -- ------------------------------------------------------------
 -- Tabela: clientes

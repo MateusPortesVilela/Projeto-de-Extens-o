@@ -6,11 +6,53 @@ Sistema Web FullStack para gerenciamento de vendas de uma loja de varejo.
 - **Frontend:** HTML5, CSS3 (Vanilla com custom variables), JavaScript (Fetch API)
 - **Backend:** PHP 8+
 - **Banco de Dados:** MySQL
-- **Ambiente:** XAMPP
+- **Ambiente:** Node.js + PHP (XAMPP) ou XAMPP
 
 ---
 
-## 🚀 Como Executar o Projeto (Guia XAMPP)
+## 🚀 Como Executar com npm (Recomendado)
+
+### Pré-requisitos
+- [Node.js 18+](https://nodejs.org/)
+- PHP instalado (XAMPP) e **MySQL** rodando com o banco importado
+
+### Passo 1: Instalar dependências
+```bash
+npm install
+```
+
+### Passo 2: Subir o servidor de desenvolvimento
+```bash
+npm run dev
+```
+
+Acesse: **http://localhost:8000**
+
+O comando sobe o frontend e a API PHP (`php/`) no mesmo servidor. Se o PHP não for encontrado, apenas os arquivos estáticos são servidos.
+
+### Passo 3: Validar o projeto (build)
+```bash
+npm run build
+```
+
+Verifica se os arquivos essenciais (`index.html`, `style/style.css`, `php/`) estão presentes.
+
+### Variáveis opcionais
+
+| Variável  | Padrão      | Descrição |
+|-----------|-------------|-----------|
+| `PORT`    | `8000`      | Porta do servidor local |
+| `PHP_BIN` | automático  | Caminho do PHP, ex.: `C:\xampp\php\php.exe` |
+
+Exemplo no PowerShell:
+```powershell
+$env:PHP_BIN = "C:\xampp\php\php.exe"
+npm run dev
+```
+
+---
+
+## 🚀 Como Executar o Projeto (Guia XAMPP — alternativo)
 
 O PHP necessita de um servidor web para funcionar. Siga os passos abaixo para rodar o projeto localmente:
 
