@@ -47,7 +47,7 @@ OrthoCare resolve a falta de uma ferramenta integrada e especializada para monit
 
 #### Sessão de usuário
 - Sessão ativa com controle de expiração
-- Renovação de token quando necessário
+- Gerenciamento seguro de sessão
 - Logout seguro
 - Persistência de sessão opcional (lembrar-me)
 
@@ -263,7 +263,7 @@ OrthoCare resolve a falta de uma ferramenta integrada e especializada para monit
 - RF001: O sistema deve permitir cadastro de pacientes e profissionais.
 - RF002: O sistema deve permitir login com e-mail e senha.
 - RF003: O sistema deve enviar e-mail para recuperação de senha.
-- RF004: O sistema deve manter sessão autenticada via JWT.
+- RF004: O sistema deve manter sessão autenticada de forma segura.
 - RF005: O sistema deve permitir edição de perfil do paciente.
 - RF006: O sistema deve armazenar foto de perfil do paciente.
 - RF007: O sistema deve registrar data de nascimento, peso e altura.
@@ -357,8 +357,8 @@ OrthoCare resolve a falta de uma ferramenta integrada e especializada para monit
 ### Fluxo de Login
 1. Usuário acessa a página de login.
 2. Informa e-mail e senha.
-3. O backend verifica as credenciais e emite um JWT.
-4. O frontend armazena o token com segurança.
+3. O backend verifica as credenciais e cria uma sessão segura.
+4. O frontend armazena dados de sessão com segurança.
 5. Usuário é redirecionado para o dashboard apropriado.
 6. Em caso de falha, o sistema informa motivo e orienta a correção.
 
@@ -403,7 +403,7 @@ OrthoCare resolve a falta de uma ferramenta integrada e especializada para monit
 ### Backend
 - Node.js como ambiente de execução
 - Express para APIs RESTful e roteamento
-- Autenticação JWT e middleware de autorização
+- Autenticação segura e middleware de autorização
 
 ### Banco
 - PostgreSQL para persistência de dados
@@ -418,7 +418,7 @@ OrthoCare resolve a falta de uma ferramenta integrada e especializada para monit
 ## Roadmap
 
 ### MVP
-- Cadastro, login e autenticação JWT
+- Cadastro, login e autenticação segura
 - Perfil de paciente e painel básico
 - Registro de dor e sintomas
 - Catálogo de exercícios com conclusão
