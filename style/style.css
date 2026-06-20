@@ -1239,7 +1239,7 @@ footer{
 .section-intro{
     text-align:center;
     color:#6b7280;
-    margin:-30px auto 30px;
+    margin:30px auto 30px;
     max-width:600px;
 }
 
@@ -1268,7 +1268,7 @@ footer{
 }
 
 .form-group{
-    margin-bottom:20px;
+    margin-bottom:5px;
 }
 
 .form-group label{
@@ -1313,6 +1313,7 @@ footer{
     border-radius:14px;
     box-shadow:var(--shadow);
     border-left:4px solid var(--primary);
+    margin-top:8px;
 }
 
 .history-item-header{
