@@ -11,5 +11,5 @@ define('ALLOWED_ORIGINS', [
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
 define('DB_PASS', '');
-define('DB_NAME', 'orto_app');
+define('DB_NAME', 'ortoapp');
 define('DB_PORT', 3306);

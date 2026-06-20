@@ -8,6 +8,8 @@ function initAppNavigation() {
   const sections = document.querySelectorAll('.app-section');
   const navigationButtons = document.querySelectorAll('[data-section]');
 
+  if (!navItems.length) return;
+
   function navigateToSection(sectionId) {
     // Remove classe active de todos os itens
     navItems.forEach(nav => nav.classList.remove('active'));
@@ -32,6 +34,8 @@ function initAppNavigation() {
     }
   }
 
+  window.navigateToSection = navigateToSection;
+
   // Navegação via navbar
   navItems.forEach(item => {
     item.addEventListener('click', () => {
@@ -50,7 +54,11 @@ function initAppNavigation() {
     }
   });
 
-  // Seleciona o primeiro item como padrão
+  // Só inicia navegação se o app estiver visível (logado)
+  if (navItems.length > 0 && !document.getElementById('login-screen')?.classList.contains('hidden')) {
+    return;
+  }
+
   if (navItems.length > 0) {
     navItems[0].click();
   }
