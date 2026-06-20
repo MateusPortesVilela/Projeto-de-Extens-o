@@ -1,220 +1,272 @@
 -- ============================================================
--- OrthoCare - PostgreSQL schema para produção
+-- OrthoCare - Schema compatível com MariaDB/MySQL
 -- ============================================================
 
--- Criação de extensão útil para UUID
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE DATABASE IF NOT EXISTS ortoapp;
+
+-- Garante uso do banco correto
+USE ortoapp;
 
 -- ============================================================
 -- Tabela: users
 -- ============================================================
 CREATE TABLE IF NOT EXISTS users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password_hash TEXT NOT NULL,
-  role VARCHAR(32) NOT NULL CHECK (role IN ('patient', 'physiotherapist', 'doctor', 'admin')),
-  is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  photo_url TEXT NULL,
-  birth_date DATE NULL,
-  weight NUMERIC(5,2) NULL CHECK (weight >= 0),
-  height NUMERIC(4,2) NULL CHECK (height >= 0),
-  goal TEXT NULL,
-  orthopedic_history TEXT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMPTZ NULL
+  id         CHAR(36)      NOT NULL DEFAULT (UUID()),
+  name       VARCHAR(255)  NOT NULL,
+  email      VARCHAR(255)  NOT NULL,
+  password_hash TEXT        NOT NULL,
+  role       VARCHAR(32)   NOT NULL CHECK (role IN ('patient', 'physiotherapist', 'doctor', 'admin')),
+  is_active  BOOLEAN       NOT NULL DEFAULT TRUE,
+  photo_url  TEXT          NULL,
+  birth_date DATE          NULL,
+  weight     DECIMAL(5,2)  NULL CHECK (weight >= 0),
+  height     DECIMAL(4,2)  NULL CHECK (height >= 0),
+  goal       TEXT          NULL,
+  orthopedic_history TEXT  NULL,
+  created_at DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at DATETIME      NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_users_email (email)
 );
 
-CREATE INDEX IF NOT EXISTS idx_users_email ON users (email);
-CREATE INDEX IF NOT EXISTS idx_users_role ON users (role);
+CREATE INDEX idx_users_role ON users (role);
 
 -- ============================================================
 -- Tabela: symptoms
 -- ============================================================
 CREATE TABLE IF NOT EXISTS symptoms (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name VARCHAR(150) NOT NULL,
-  description TEXT NULL,
+  id          CHAR(36)     NOT NULL DEFAULT (UUID()),
+  name        VARCHAR(150) NOT NULL,
+  description TEXT         NULL,
   body_region VARCHAR(100) NULL,
-  is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  is_active   BOOLEAN      NOT NULL DEFAULT TRUE,
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_symptoms_name (name)
 );
-
-CREATE UNIQUE INDEX IF NOT EXISTS idx_symptoms_name ON symptoms (name);
 
 -- ============================================================
 -- Tabela: patient_symptoms
 -- ============================================================
 CREATE TABLE IF NOT EXISTS patient_symptoms (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  symptom_id UUID NOT NULL REFERENCES symptoms(id) ON DELETE RESTRICT,
-  intensity SMALLINT NOT NULL CHECK (intensity BETWEEN 0 AND 10),
-  notes TEXT NULL,
-  recorded_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMPTZ NULL
+  id          CHAR(36)  NOT NULL DEFAULT (UUID()),
+  user_id     CHAR(36)  NOT NULL,
+  symptom_id  CHAR(36)  NOT NULL,
+  intensity   TINYINT   NOT NULL CHECK (intensity BETWEEN 0 AND 10),
+  notes       TEXT      NULL,
+  recorded_at DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at  DATETIME  NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_ps_user    FOREIGN KEY (user_id)    REFERENCES users(id)    ON DELETE CASCADE,
+  CONSTRAINT fk_ps_symptom FOREIGN KEY (symptom_id) REFERENCES symptoms(id) ON DELETE RESTRICT
 );
 
-CREATE INDEX IF NOT EXISTS idx_patient_symptoms_user_id ON patient_symptoms (user_id);
-CREATE INDEX IF NOT EXISTS idx_patient_symptoms_symptom_id ON patient_symptoms (symptom_id);
-CREATE INDEX IF NOT EXISTS idx_patient_symptoms_recorded_at ON patient_symptoms (recorded_at);
+CREATE INDEX idx_patient_symptoms_user_id    ON patient_symptoms (user_id);
+CREATE INDEX idx_patient_symptoms_symptom_id ON patient_symptoms (symptom_id);
+CREATE INDEX idx_patient_symptoms_recorded_at ON patient_symptoms (recorded_at);
 
 -- ============================================================
 -- Tabela: pain_records
 -- ============================================================
 CREATE TABLE IF NOT EXISTS pain_records (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  pain_level SMALLINT NOT NULL CHECK (pain_level BETWEEN 0 AND 10),
-  notes TEXT NULL,
-  recorded_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMPTZ NULL
+  id          CHAR(36)  NOT NULL DEFAULT (UUID()),
+  user_id     CHAR(36)  NOT NULL,
+  pain_level  TINYINT   NOT NULL CHECK (pain_level BETWEEN 0 AND 10),
+  notes       TEXT      NULL,
+  recorded_at DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  created_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at  DATETIME  NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_pr_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_pain_records_user_id ON pain_records (user_id);
-CREATE INDEX IF NOT EXISTS idx_pain_records_recorded_at ON pain_records (recorded_at);
+CREATE INDEX idx_pain_records_user_id     ON pain_records (user_id);
+CREATE INDEX idx_pain_records_recorded_at ON pain_records (recorded_at);
 
 -- ============================================================
 -- Tabela: exercise_categories
 -- ============================================================
 CREATE TABLE IF NOT EXISTS exercise_categories (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name VARCHAR(150) NOT NULL UNIQUE,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id         CHAR(36)     NOT NULL DEFAULT (UUID()),
+  name       VARCHAR(150) NOT NULL,
+  created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_exercise_categories_name (name)
 );
 
 -- ============================================================
 -- Tabela: exercises
 -- ============================================================
 CREATE TABLE IF NOT EXISTS exercises (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  category_id UUID NOT NULL REFERENCES exercise_categories(id) ON DELETE RESTRICT,
-  name VARCHAR(255) NOT NULL,
-  description TEXT NULL,
-  duration_minutes INT NULL CHECK (duration_minutes >= 0),
-  difficulty VARCHAR(32) NOT NULL CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
-  video_url TEXT NULL,
-  is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id                CHAR(36)     NOT NULL DEFAULT (UUID()),
+  category_id       CHAR(36)     NOT NULL,
+  name              VARCHAR(255) NOT NULL,
+  description       TEXT         NULL,
+  duration_minutes  INT          NULL CHECK (duration_minutes >= 0),
+  difficulty        VARCHAR(32)  NOT NULL CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
+  video_url         TEXT         NULL,
+  is_active         BOOLEAN      NOT NULL DEFAULT TRUE,
+  created_at        DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at        DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_exercises_category_name (category_id, name),
+  CONSTRAINT fk_ex_category FOREIGN KEY (category_id) REFERENCES exercise_categories(id) ON DELETE RESTRICT
 );
 
-CREATE UNIQUE INDEX IF NOT EXISTS idx_exercises_category_name ON exercises (category_id, name);
-CREATE INDEX IF NOT EXISTS idx_exercises_difficulty ON exercises (difficulty);
+CREATE INDEX idx_exercises_difficulty ON exercises (difficulty);
 
 -- ============================================================
 -- Tabela: exercise_sessions
 -- ============================================================
 CREATE TABLE IF NOT EXISTS exercise_sessions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  exercise_id UUID NOT NULL REFERENCES exercises(id) ON DELETE RESTRICT,
-  completed BOOLEAN NOT NULL DEFAULT FALSE,
-  started_at TIMESTAMPTZ NULL,
-  finished_at TIMESTAMPTZ NULL,
-  notes TEXT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMPTZ NULL,
-  CHECK (finished_at IS NULL OR started_at IS NULL OR finished_at >= started_at)
+  id          CHAR(36)  NOT NULL DEFAULT (UUID()),
+  user_id     CHAR(36)  NOT NULL,
+  exercise_id CHAR(36)  NOT NULL,
+  completed   BOOLEAN   NOT NULL DEFAULT FALSE,
+  started_at  DATETIME  NULL,
+  finished_at DATETIME  NULL,
+  notes       TEXT      NULL,
+  created_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at  DATETIME  NULL,
+  -- MariaDB 10.2+ suporta CHECK, mas não expressões com IS NULL entre colunas facilmente;
+  -- a validação finished_at >= started_at é feita via trigger abaixo
+  PRIMARY KEY (id),
+  CONSTRAINT fk_es_user     FOREIGN KEY (user_id)     REFERENCES users(id)     ON DELETE CASCADE,
+  CONSTRAINT fk_es_exercise FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE RESTRICT
 );
 
-CREATE INDEX IF NOT EXISTS idx_exercise_sessions_user_id ON exercise_sessions (user_id);
-CREATE INDEX IF NOT EXISTS idx_exercise_sessions_exercise_id ON exercise_sessions (exercise_id);
-CREATE INDEX IF NOT EXISTS idx_exercise_sessions_completed ON exercise_sessions (completed);
+-- Trigger para validar finished_at >= started_at (substitui o CHECK do PostgreSQL)
+DROP TRIGGER IF EXISTS trg_exercise_sessions_check_dates;
+DELIMITER $$
+CREATE TRIGGER trg_exercise_sessions_check_dates
+BEFORE INSERT ON exercise_sessions
+FOR EACH ROW
+BEGIN
+  IF NEW.finished_at IS NOT NULL AND NEW.started_at IS NOT NULL AND NEW.finished_at < NEW.started_at THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'finished_at deve ser >= started_at';
+  END IF;
+END$$
+
+CREATE TRIGGER trg_exercise_sessions_check_dates_upd
+BEFORE UPDATE ON exercise_sessions
+FOR EACH ROW
+BEGIN
+  IF NEW.finished_at IS NOT NULL AND NEW.started_at IS NOT NULL AND NEW.finished_at < NEW.started_at THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'finished_at deve ser >= started_at';
+  END IF;
+END$$
+DELIMITER ;
+
+CREATE INDEX idx_exercise_sessions_user_id     ON exercise_sessions (user_id);
+CREATE INDEX idx_exercise_sessions_exercise_id ON exercise_sessions (exercise_id);
+CREATE INDEX idx_exercise_sessions_completed   ON exercise_sessions (completed);
 
 -- ============================================================
 -- Tabela: attendance_calendar
 -- ============================================================
 CREATE TABLE IF NOT EXISTS attendance_calendar (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  activity_date DATE NOT NULL,
+  id            CHAR(36)     NOT NULL DEFAULT (UUID()),
+  user_id       CHAR(36)     NOT NULL,
+  activity_date DATE         NOT NULL,
   activity_type VARCHAR(100) NOT NULL,
-  notes TEXT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  deleted_at TIMESTAMPTZ NULL,
-  UNIQUE (user_id, activity_date, activity_type)
+  notes         TEXT         NULL,
+  created_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at    DATETIME     NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_attendance (user_id, activity_date, activity_type),
+  CONSTRAINT fk_ac_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_attendance_calendar_user_date ON attendance_calendar (user_id, activity_date);
+CREATE INDEX idx_attendance_calendar_user_date ON attendance_calendar (user_id, activity_date);
 
 -- ============================================================
 -- Tabela: achievements
 -- ============================================================
 CREATE TABLE IF NOT EXISTS achievements (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name VARCHAR(150) NOT NULL UNIQUE,
-  description TEXT NOT NULL,
-  icon TEXT NULL,
-  criteria JSONB NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id          CHAR(36)     NOT NULL DEFAULT (UUID()),
+  name        VARCHAR(150) NOT NULL,
+  description TEXT         NOT NULL,
+  icon        TEXT         NULL,
+  criteria    JSON         NULL,        -- JSONB do Postgres → JSON no MariaDB
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_achievements_name (name)
 );
 
 -- ============================================================
 -- Tabela: user_achievements
 -- ============================================================
 CREATE TABLE IF NOT EXISTS user_achievements (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  achievement_id UUID NOT NULL REFERENCES achievements(id) ON DELETE CASCADE,
-  unlocked_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE (user_id, achievement_id)
+  id             CHAR(36)  NOT NULL DEFAULT (UUID()),
+  user_id        CHAR(36)  NOT NULL,
+  achievement_id CHAR(36)  NOT NULL,
+  unlocked_at    DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_user_achievement (user_id, achievement_id),
+  CONSTRAINT fk_ua_user        FOREIGN KEY (user_id)        REFERENCES users(id)        ON DELETE CASCADE,
+  CONSTRAINT fk_ua_achievement FOREIGN KEY (achievement_id) REFERENCES achievements(id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_user_achievements_user_id ON user_achievements (user_id);
+CREATE INDEX idx_user_achievements_user_id ON user_achievements (user_id);
 
 -- ============================================================
 -- Tabela: support_tickets
 -- ============================================================
 CREATE TABLE IF NOT EXISTS support_tickets (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NULL REFERENCES users(id) ON DELETE SET NULL,
-  subject VARCHAR(255) NOT NULL,
-  message TEXT NOT NULL,
-  status VARCHAR(32) NOT NULL CHECK (status IN ('open', 'in_progress', 'resolved', 'closed')),
-  priority VARCHAR(16) NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  resolved_at TIMESTAMPTZ NULL
+  id          CHAR(36)     NOT NULL DEFAULT (UUID()),
+  user_id     CHAR(36)     NULL,
+  subject     VARCHAR(255) NOT NULL,
+  message     TEXT         NOT NULL,
+  status      VARCHAR(32)  NOT NULL CHECK (status IN ('open', 'in_progress', 'resolved', 'closed')),
+  priority    VARCHAR(16)  NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
+  created_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at  DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  resolved_at DATETIME     NULL,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_st_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_support_tickets_status ON support_tickets (status);
-CREATE INDEX IF NOT EXISTS idx_support_tickets_user_id ON support_tickets (user_id);
+CREATE INDEX idx_support_tickets_status  ON support_tickets (status);
+CREATE INDEX idx_support_tickets_user_id ON support_tickets (user_id);
 
 -- ============================================================
 -- Tabela: ticket_messages
 -- ============================================================
 CREATE TABLE IF NOT EXISTS ticket_messages (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  ticket_id UUID NOT NULL REFERENCES support_tickets(id) ON DELETE CASCADE,
-  sender_id UUID NULL REFERENCES users(id) ON DELETE SET NULL,
-  message TEXT NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id         CHAR(36)  NOT NULL DEFAULT (UUID()),
+  ticket_id  CHAR(36)  NOT NULL,
+  sender_id  CHAR(36)  NULL,
+  message    TEXT      NOT NULL,
+  created_at DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_tm_ticket FOREIGN KEY (ticket_id) REFERENCES support_tickets(id) ON DELETE CASCADE,
+  CONSTRAINT fk_tm_sender FOREIGN KEY (sender_id) REFERENCES users(id)           ON DELETE SET NULL
 );
 
-CREATE INDEX IF NOT EXISTS idx_ticket_messages_ticket_id ON ticket_messages (ticket_id);
-CREATE INDEX IF NOT EXISTS idx_ticket_messages_sender_id ON ticket_messages (sender_id);
+CREATE INDEX idx_ticket_messages_ticket_id ON ticket_messages (ticket_id);
+CREATE INDEX idx_ticket_messages_sender_id ON ticket_messages (sender_id);
 
 -- ============================================================
 -- Tabela: feedbacks
 -- ============================================================
 CREATE TABLE IF NOT EXISTS feedbacks (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  rating SMALLINT NOT NULL CHECK (rating BETWEEN 1 AND 5),
-  comment TEXT NULL,
-  context VARCHAR(150) NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id         CHAR(36)     NOT NULL DEFAULT (UUID()),
+  user_id    CHAR(36)     NOT NULL,
+  rating     TINYINT      NOT NULL CHECK (rating BETWEEN 1 AND 5),
+  comment    TEXT         NULL,
+  context    VARCHAR(150) NULL,
+  created_at DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  CONSTRAINT fk_fb_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE INDEX IF NOT EXISTS idx_feedbacks_user_id ON feedbacks (user_id);
+CREATE INDEX idx_feedbacks_user_id ON feedbacks (user_id);
