@@ -620,6 +620,45 @@ footer{
    MOBILE APP DESIGN
 ========================== */
 
+/* App Section Home with Scroll Effect */
+.app-section-home {
+    position: relative;
+    transition: background-color 0.3s ease;
+    background-color: transparent;
+}
+
+/* Scroll Content */
+.scroll-content {
+    padding: 40px 0;
+    margin-top: 20px;
+}
+
+.scroll-text {
+    margin-bottom: 40px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.scroll-text h3 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.scroll-text p {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.scroll-text.visible {
+    opacity: 1;
+}
+
 /* Header Mobile App */
 .app-header {
     position: fixed;
@@ -687,7 +726,6 @@ footer{
 /* Main Content */
 .app-main {
     padding-top: 80px;
-    padding-bottom: 100px;
     background: #f9fafb;
     min-height: 100vh;
 }
@@ -711,6 +749,11 @@ footer{
 .section-hero {
     text-align: center;
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
 }
 
 .section-hero h1 {
@@ -722,6 +765,7 @@ footer{
 .section-hero p {
     font-size: 0.95rem;
     color: #6b7280;
+    margin-bottom: 20px;
 }
 
 /* App Cards */
@@ -730,6 +774,13 @@ footer{
     grid-template-columns: 1fr;
     gap: 12px;
     margin-bottom: 20px;
+    /* Remove scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.app-cards::-webkit-scrollbar {
+    display: none;
 }
 
 .app-card {
@@ -860,6 +911,108 @@ footer{
     display: block;
     font-size: 0.8rem;
     color: #9ca3af;
+}
+
+/* Calendar Container */
+.calendar-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+    margin: 0;
+    flex: 1;
+    text-align: center;
+}
+
+.calendar-nav {
+    background: var(--primary-light);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--primary);
+    font-size: 1rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.calendar-nav:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.weekday {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: #9ca3af;
+    padding: 8px 0;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #9ca3af;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 2px solid transparent;
+}
+
+.calendar-day.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-day.today {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.calendar-day.active {
+    background: var(--primary);
+    color: white;
+}
+
+.calendar-day:not(.empty):hover:not(.active) {
+    background: var(--primary-light);
+    color: var(--primary);
 }
 
 /* Profile Card */

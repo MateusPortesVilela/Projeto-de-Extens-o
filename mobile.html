@@ -38,15 +38,38 @@
   <main class="app-main">
 
     <!-- Home Section -->
-    <section id="home" class="app-section">
+    <section id="home" class="app-section app-section-home">
       <div class="section-hero">
         <h1>Bem-vindo ao ORTOAPP</h1>
         <p>Cuide da sua saúde ortopédica de forma inteligente</p>
       </div>
 
-      <button class="btn-primary btn-large">
+      <button class="btn-primary btn-large" data-section="sintomas">
         <i class="fas fa-play"></i> Começar Agora
       </button>
+
+      <!-- Conteúdo que aparece no scroll -->
+      <div class="scroll-content">
+        <div class="scroll-text">
+          <h3>Sobre o ORTOAPP</h3>
+          <p>O ORTOAPP é uma plataforma inovadora dedicada à saúde ortopédica. Com recursos avançados e interface intuitiva, ajudamos você a monitorar e melhorar sua saúde.</p>
+        </div>
+
+        <div class="scroll-text">
+          <h3>Acompanhamento Personalizado</h3>
+          <p>Cada usuário recebe um plano personalizado baseado em suas necessidades específicas. Monitore sua evolução com gráficos e relatórios detalhados.</p>
+        </div>
+
+        <div class="scroll-text">
+          <h3>Exercícios Eficazes</h3>
+          <p>Acesso a uma biblioteca completa de exercícios terapêuticos desenvolvidos por profissionais. Todos os exercícios são seguros e eficazes.</p>
+        </div>
+
+        <div class="scroll-text">
+          <h3>Suporte Especializado</h3>
+          <p>Conte com nossa equipe de especialistas disponível para esclarecer dúvidas e guiar você em sua jornada de saúde.</p>
+        </div>
+      </div>
     </section>
 
     <!-- Sintomas Section -->
@@ -123,16 +146,43 @@
 
       <div class="progress-card">
         <div class="stat">
-          <span class="stat-value">8</span>
-          <span class="stat-label">Dias Seguidos</span>
+          <span class="stat-value">0</span>
+          <span class="stat-label">Sequência</span>
         </div>
         <div class="stat">
-          <span class="stat-value">24</span>
-          <span class="stat-label">Exercícios</span>
+          <span class="stat-value">0</span>
+          <span class="stat-label">Dias Ativos</span>
         </div>
         <div class="stat">
-          <span class="stat-value">72%</span>
+          <span class="stat-value">0%</span>
           <span class="stat-label">Melhora</span>
+        </div>
+      </div>
+
+      <!-- Calendário de Registro -->
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button class="calendar-nav prev-month">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <h3 class="calendar-title"></h3>
+          <button class="calendar-nav next-month">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+
+        <div class="calendar-weekdays">
+          <div class="weekday">Dom</div>
+          <div class="weekday">Seg</div>
+          <div class="weekday">Ter</div>
+          <div class="weekday">Qua</div>
+          <div class="weekday">Qui</div>
+          <div class="weekday">Sex</div>
+          <div class="weekday">Sab</div>
+        </div>
+
+        <div class="calendar-grid" id="calendar-grid">
+          <!-- Dias serão gerados pelo JavaScript -->
         </div>
       </div>
     </section>
@@ -186,6 +236,8 @@
   <!-- Scripts -->
   <script src="/scripts/mobile-redirect.js"></script>
   <script src="/scripts/app-navigation.js"></script>
+  <script src="/scripts/home-scroll-effect.js"></script>
+  <script src="/scripts/progress-calendar.js"></script>
 
 </body>
 
