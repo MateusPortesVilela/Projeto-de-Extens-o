@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORTOAPP - Versão Mobile</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/style/style.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body id="porteiro-mobile">
+
+  <!-- ================= HEADER MOBILE ================= -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-small">
+        <i class="fa-solid fa-bone"></i>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <span class="app-title">ORTOAPP</span>
+    </div>
+
+    <div class="header-right">
+      <button class="profile-btn">
+        <i class="fa-solid fa-user"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- ================= CONTEÚDO MOBILE ================= -->
+  <main class="app-main">
+
+    <!-- Home Section -->
+    <section id="home" class="app-section">
+      <div class="section-hero">
+        <h1>Bem-vindo ao ORTOAPP</h1>
+        <p>Cuide da sua saúde ortopédica de forma inteligente</p>
+      </div>
+
+      <button class="btn-primary btn-large">
+        <i class="fas fa-play"></i> Começar Agora
+      </button>
+    </section>
+
+    <!-- Sintomas Section -->
+    <section id="sintomas" class="app-section" style="display: none;">
+      <h2>Sintomas Recorrentes</h2>
+
+      <div class="app-cards">
+        <div class="app-card">
+          <i class="fas fa-person"></i>
+          <h3>Dor Lombar</h3>
+          <p>Região inferior das costas</p>
+        </div>
+
+        <div class="app-card">
+          <i class="fas fa-neck"></i>
+          <h3>Dor Cervical</h3>
+          <p>Região do pescoço</p>
+        </div>
+
+        <div class="app-card">
+          <i class="fas fa-person-running"></i>
+          <h3>Dor no Joelho</h3>
+          <p>Problemas articulares</p>
+        </div>
+
+        <div class="app-card">
+          <i class="fas fa-hand"></i>
+          <h3>Dor no Ombro</h3>
+          <p>Limitação de movimento</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exercícios Section -->
+    <section id="exercicios" class="app-section" style="display: none;">
+      <h2>Exercícios Recomendados</h2>
+
+      <div class="app-cards">
+        <div class="app-card exercise-item">
+          <div class="exercise-header">
+            <i class="fas fa-dumbbell"></i>
+            <span class="duration">10 min</span>
+          </div>
+          <h3>Alongamento Lombar</h3>
+          <p>Nível Iniciante</p>
+          <button class="btn-small">Iniciar</button>
+        </div>
+
+        <div class="app-card exercise-item">
+          <div class="exercise-header">
+            <i class="fas fa-person"></i>
+            <span class="duration">8 min</span>
+          </div>
+          <h3>Mobilidade Cervical</h3>
+          <p>Nível Fácil</p>
+          <button class="btn-small">Iniciar</button>
+        </div>
+
+        <div class="app-card exercise-item">
+          <div class="exercise-header">
+            <i class="fas fa-yoga"></i>
+            <span class="duration">12 min</span>
+          </div>
+          <h3>Estabilidade de Core</h3>
+          <p>Nível Intermediário</p>
+          <button class="btn-small">Iniciar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progresso Section -->
+    <section id="progresso" class="app-section" style="display: none;">
+      <h2>Seu Progresso</h2>
+
+      <div class="progress-card">
+        <div class="stat">
+          <span class="stat-value">8</span>
+          <span class="stat-label">Dias Seguidos</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">24</span>
+          <span class="stat-label">Exercícios</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">72%</span>
+          <span class="stat-label">Melhora</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Perfil Section -->
+    <section id="perfil" class="app-section" style="display: none;">
+      <h2>Seu Perfil</h2>
+
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h3>João Silva</h3>
+        <p>joao.silva@email.com</p>
+
+        <button class="btn-secondary" style="width: 100%; margin-top: 20px;">Editar Perfil</button>
+        <button class="btn-secondary" style="width: 100%; margin-top: 10px;">Configurações</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= NAVBAR FIXA (BOTTOM NAV) ================= -->
+  <nav class="app-navbar">
+    <button class="nav-item active" data-section="home">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </button>
+
+    <button class="nav-item" data-section="sintomas">
+      <i class="fas fa-heartbeat"></i>
+      <span>Sintomas</span>
+    </button>
+
+    <button class="nav-item" data-section="exercicios">
+      <i class="fas fa-dumbbell"></i>
+      <span>Exercícios</span>
+    </button>
+
+    <button class="nav-item" data-section="progresso">
+      <i class="fas fa-chart-line"></i>
+      <span>Progresso</span>
+    </button>
+
+    <button class="nav-item" data-section="perfil">
+      <i class="fas fa-user"></i>
+      <span>Perfil</span>
+    </button>
+  </nav>
+
+  <!-- Scripts -->
+  <script src="/scripts/mobile-redirect.js"></script>
+  <script src="/scripts/app-navigation.js"></script>
+
+</body>
+
+</html>
