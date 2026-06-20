@@ -1,5 +1,5 @@
 -- ============================================================
--- OrthoCare - Schema compatível com MariaDB/MySQL
+-- OrtoApp - Schema compatível com MariaDB/MySQL
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS ortoapp;
@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS pain_records (
   id          CHAR(36)  NOT NULL DEFAULT (UUID()),
   user_id     CHAR(36)  NOT NULL,
   pain_level  TINYINT   NOT NULL CHECK (pain_level BETWEEN 0 AND 10),
+  symptoms    TEXT      NULL,
   notes       TEXT      NULL,
   recorded_at DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,
   created_at  DATETIME  NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -5,239 +5,201 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ORTOAPP - Versão Mobile</title>
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="/style/style.css">
-
-  <!-- Font Awesome -->
+  <link rel="stylesheet" href="style/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 
 <body id="porteiro-mobile">
 
-  <!-- ================= HEADER MOBILE ================= -->
-  <header class="app-header">
-    <div class="header-left">
-      <div class="logo-small">
+  <!-- ================= LOGIN MOBILE ================= -->
+  <div id="login-screen" class="login-screen login-screen-mobile">
+    <div class="login-card">
+      <div class="login-logo">
         <i class="fa-solid fa-bone"></i>
+        <h1>ORTOAPP</h1>
+        <p>Acompanhamento ortopédico</p>
       </div>
+      <form id="login-form" class="login-form">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" placeholder="seu@email.com" required>
+        <label for="login-password">Senha</label>
+        <input type="password" id="login-password" placeholder="••••••••" required>
+        <button type="submit" class="btn-primary btn-full">Entrar</button>
+      </form>
+      <p class="login-hint">Login simulado para demonstração.</p>
     </div>
+  </div>
 
-    <div class="header-center">
-      <span class="app-title">ORTOAPP</span>
-    </div>
+  <div id="app-content" class="hidden">
 
-    <div class="header-right">
-      <button class="profile-btn">
-        <i class="fa-solid fa-user"></i>
-      </button>
-    </div>
-  </header>
-
-  <!-- ================= CONTEÚDO MOBILE ================= -->
-  <main class="app-main">
-
-    <!-- Home Section -->
-    <section id="home" class="app-section app-section-home">
-      <div class="section-hero">
-        <h1>Bem-vindo ao ORTOAPP</h1>
-        <p>Cuide da sua saúde ortopédica de forma inteligente</p>
-      </div>
-
-      <button class="btn-primary btn-large">
-        <i class="fas fa-play"></i> Começar Agora
-      </button>
-
-      <!-- Conteúdo que aparece no scroll -->
-      <div class="scroll-content">
-        <div class="scroll-text">
-          <h3>Sobre o ORTOAPP</h3>
-          <p>O ORTOAPP é uma plataforma inovadora dedicada à saúde ortopédica. Com recursos avançados e interface intuitiva, ajudamos você a monitorar e melhorar sua saúde.</p>
-        </div>
-
-        <div class="scroll-text">
-          <h3>Acompanhamento Personalizado</h3>
-          <p>Cada usuário recebe um plano personalizado baseado em suas necessidades específicas. Monitore sua evolução com gráficos e relatórios detalhados.</p>
-        </div>
-
-        <div class="scroll-text">
-          <h3>Exercícios Eficazes</h3>
-          <p>Acesso a uma biblioteca completa de exercícios terapêuticos desenvolvidos por profissionais. Todos os exercícios são seguros e eficazes.</p>
-        </div>
-
-        <div class="scroll-text">
-          <h3>Suporte Especializado</h3>
-          <p>Conte com nossa equipe de especialistas disponível para esclarecer dúvidas e guiar você em sua jornada de saúde.</p>
+    <header class="app-header">
+      <div class="header-left">
+        <div class="logo-small">
+          <i class="fa-solid fa-bone"></i>
         </div>
       </div>
-    </section>
-
-    <!-- Sintomas Section -->
-    <section id="sintomas" class="app-section" style="display: none;">
-      <h2>Sintomas Recorrentes</h2>
-
-      <div class="app-cards">
-        <div class="app-card">
-          <i class="fas fa-person"></i>
-          <h3>Dor Lombar</h3>
-          <p>Região inferior das costas</p>
-        </div>
-
-        <div class="app-card">
-          <i class="fas fa-neck"></i>
-          <h3>Dor Cervical</h3>
-          <p>Região do pescoço</p>
-        </div>
-
-        <div class="app-card">
-          <i class="fas fa-person-running"></i>
-          <h3>Dor no Joelho</h3>
-          <p>Problemas articulares</p>
-        </div>
-
-        <div class="app-card">
-          <i class="fas fa-hand"></i>
-          <h3>Dor no Ombro</h3>
-          <p>Limitação de movimento</p>
-        </div>
+      <div class="header-center">
+        <span class="app-title">ORTOAPP</span>
       </div>
-    </section>
+      <div class="header-right">
+        <button id="logout-btn" class="profile-btn" type="button" title="Sair">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
+      </div>
+    </header>
 
-    <!-- Exercícios Section -->
-    <section id="exercicios" class="app-section" style="display: none;">
-      <h2>Exercícios Recomendados</h2>
+    <main class="app-main">
 
-      <div class="app-cards">
-        <div class="app-card exercise-item">
-          <div class="exercise-header">
-            <i class="fas fa-dumbbell"></i>
-            <span class="duration">10 min</span>
+      <!-- Dashboard -->
+      <section id="dashboard" class="app-section app-section-home">
+        <div class="section-hero">
+          <h1>Olá, <span id="welcome-user">Paciente</span>!</h1>
+          <p>Seu acompanhamento ortopédico em um só lugar.</p>
+          <p id="api-status" class="api-status api-offline">Verificando banco...</p>
+        </div>
+
+        <div class="dashboard-summary mobile-summary">
+          <div class="summary-card">
+            <span class="summary-label">Dor atual</span>
+            <span class="summary-value" id="dashboard-pain">—</span>
           </div>
-          <h3>Alongamento Lombar</h3>
-          <p>Nível Iniciante</p>
-          <button class="btn-small">Iniciar</button>
-        </div>
-
-        <div class="app-card exercise-item">
-          <div class="exercise-header">
-            <i class="fas fa-person"></i>
-            <span class="duration">8 min</span>
+          <div class="summary-card">
+            <span class="summary-label">Registros</span>
+            <span class="summary-value" id="dashboard-count">0</span>
           </div>
-          <h3>Mobilidade Cervical</h3>
-          <p>Nível Fácil</p>
-          <button class="btn-small">Iniciar</button>
         </div>
 
-        <div class="app-card exercise-item">
-          <div class="exercise-header">
-            <i class="fas fa-yoga"></i>
-            <span class="duration">12 min</span>
-          </div>
-          <h3>Estabilidade de Core</h3>
-          <p>Nível Intermediário</p>
-          <button class="btn-small">Iniciar</button>
-        </div>
-      </div>
-    </section>
+        <p class="mobile-evolution" id="dashboard-evolution">Nenhum registro ainda.</p>
 
-    <!-- Progresso Section -->
-    <section id="progresso" class="app-section" style="display: none;">
-      <h2>Seu Progresso</h2>
-
-      <div class="progress-card">
-        <div class="stat">
-          <span class="stat-value">0</span>
-          <span class="stat-label">Sequência</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value">0</span>
-          <span class="stat-label">Dias Ativos</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value">0%</span>
-          <span class="stat-label">Melhora</span>
-        </div>
-      </div>
-
-      <!-- Calendário de Registro -->
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <button class="calendar-nav prev-month">
-            <i class="fas fa-chevron-left"></i>
+        <div class="mobile-actions">
+          <button class="btn-primary btn-large" type="button" data-goto="registro">
+            <i class="fas fa-plus"></i> Registrar sintomas
           </button>
-          <h3 class="calendar-title"></h3>
-          <button class="calendar-nav next-month">
-            <i class="fas fa-chevron-right"></i>
+          <button class="btn-secondary btn-large" type="button" data-goto="historico">
+            <i class="fas fa-clock-rotate-left"></i> Ver histórico
           </button>
         </div>
+      </section>
 
-        <div class="calendar-weekdays">
-          <div class="weekday">Dom</div>
-          <div class="weekday">Seg</div>
-          <div class="weekday">Ter</div>
-          <div class="weekday">Qua</div>
-          <div class="weekday">Qui</div>
-          <div class="weekday">Sex</div>
-          <div class="weekday">Sab</div>
+      <!-- Registro -->
+      <section id="registro" class="app-section" style="display: none;">
+        <h2>Registrar Dor</h2>
+        <p class="section-intro">Este app não faz diagnóstico.</p>
+
+        <form id="register-form" class="register-form mobile-form">
+          <div class="pain-container">
+            <label for="painRange">Nível de dor (0–10)</label>
+            <input type="range" min="0" max="10" value="0" id="painRange">
+            <h3 id="painValue">0</h3>
+            <p id="painFeedback">Sem dor</p>
+          </div>
+          <div class="form-group">
+            <label for="symptoms-input">Sintomas</label>
+            <input type="text" id="symptoms-input" placeholder="Ex.: dor lombar, rigidez" required>
+          </div>
+          <div class="form-group">
+            <label for="notes-input">Observações</label>
+            <textarea id="notes-input" placeholder="Como você se sente hoje?"></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-full">Salvar</button>
+        </form>
+      </section>
+
+      <!-- Histórico -->
+      <section id="historico" class="app-section" style="display: none;">
+        <h2>Histórico</h2>
+        <div id="history-list" class="history-list">
+          <p class="empty-state">Nenhum registro encontrado ainda.</p>
+        </div>
+      </section>
+
+      <!-- Orientações -->
+      <section id="orientacoes" class="app-section" style="display: none;">
+        <h2>Orientações</h2>
+        <p class="disclaimer-box">
+          <i class="fas fa-circle-info"></i>
+          Apoio educativo — <strong>não diagnostica doenças</strong>.
+        </p>
+        <div id="orientations-list" class="info-grid mobile-info"></div>
+      </section>
+
+      <!-- Progresso + Lembretes -->
+      <section id="progresso" class="app-section" style="display: none;">
+        <h2>Progresso</h2>
+
+        <div class="progress-card">
+          <div class="stat">
+            <span class="stat-value" id="counter-last-pain">0</span>
+            <span class="stat-label">Última dor</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="counter-records">0</span>
+            <span class="stat-label">Registros</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value evolution-stat" id="progress-evolution">—</span>
+            <span class="stat-label">Evolução</span>
+          </div>
         </div>
 
-        <div class="calendar-grid" id="calendar-grid">
-          <!-- Dias serão gerados pelo JavaScript -->
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button class="calendar-nav prev-month" type="button">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <h3 class="calendar-title"></h3>
+            <button class="calendar-nav next-month" type="button">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+          <div class="calendar-weekdays">
+            <div class="weekday">Dom</div>
+            <div class="weekday">Seg</div>
+            <div class="weekday">Ter</div>
+            <div class="weekday">Qua</div>
+            <div class="weekday">Qui</div>
+            <div class="weekday">Sex</div>
+            <div class="weekday">Sab</div>
+          </div>
+          <div class="calendar-grid" id="calendar-grid"></div>
         </div>
-      </div>
-    </section>
 
-    <!-- Perfil Section -->
-    <section id="perfil" class="app-section" style="display: none;">
-      <h2>Seu Perfil</h2>
+        <h2 class="subsection-title">Lembretes</h2>
+        <div id="reminders-list" class="reminders-list"></div>
+      </section>
 
-      <div class="profile-card">
-        <div class="profile-avatar">
-          <i class="fas fa-user-circle"></i>
-        </div>
-        <h3>João Silva</h3>
-        <p>joao.silva@email.com</p>
+    </main>
 
-        <button class="btn-secondary" style="width: 100%; margin-top: 20px;">Editar Perfil</button>
-        <button class="btn-secondary" style="width: 100%; margin-top: 10px;">Configurações</button>
-      </div>
-    </section>
+    <nav class="app-navbar">
+      <button class="nav-item active" data-section="dashboard" type="button">
+        <i class="fas fa-home"></i>
+        <span>Início</span>
+      </button>
+      <button class="nav-item" data-section="registro" type="button">
+        <i class="fas fa-plus-circle"></i>
+        <span>Registrar</span>
+      </button>
+      <button class="nav-item" data-section="historico" type="button">
+        <i class="fas fa-list"></i>
+        <span>Histórico</span>
+      </button>
+      <button class="nav-item" data-section="orientacoes" type="button">
+        <i class="fas fa-book-medical"></i>
+        <span>Orientações</span>
+      </button>
+      <button class="nav-item" data-section="progresso" type="button">
+        <i class="fas fa-chart-line"></i>
+        <span>Progresso</span>
+      </button>
+    </nav>
 
-  </main>
+  </div>
 
-  <!-- ================= NAVBAR FIXA (BOTTOM NAV) ================= -->
-  <nav class="app-navbar">
-    <button class="nav-item active" data-section="home">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </button>
-
-    <button class="nav-item" data-section="sintomas">
-      <i class="fas fa-heartbeat"></i>
-      <span>Sintomas</span>
-    </button>
-
-    <button class="nav-item" data-section="exercicios">
-      <i class="fas fa-dumbbell"></i>
-      <span>Exercícios</span>
-    </button>
-
-    <button class="nav-item" data-section="progresso">
-      <i class="fas fa-chart-line"></i>
-      <span>Progresso</span>
-    </button>
-
-    <button class="nav-item" data-section="perfil">
-      <i class="fas fa-user"></i>
-      <span>Perfil</span>
-    </button>
-  </nav>
-
-  <!-- Scripts -->
-  <script src="/scripts/mobile-redirect.js"></script>
-  <script src="/scripts/app-navigation.js"></script>
-  <script src="/scripts/home-scroll-effect.js"></script>
-  <script src="/scripts/progress-calendar.js"></script>
+  <script src="scripts/mobile-redirect.js"></script>
+  <script src="scripts/app-navigation.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/ortoapp-core.js"></script>
+  <script src="scripts/progress-calendar.js"></script>
 
 </body>
 

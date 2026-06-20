@@ -5,18 +5,20 @@
  */
 
 function initProgressCalendar() {
-  let currentDate = new Date();
-  
-  // Dias marcados como completos (exemplo - pode vir de um backend)
-  const completedDays = [1, 2, 3, 5, 6, 7, 8, 10, 12, 14, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26];
-  
   const calendarGrid = document.getElementById('calendar-grid');
+  if (!calendarGrid) return;
+
+  let currentDate = new Date();
+  const completedDays = [1, 2, 3, 5, 6, 7, 8, 10, 12, 14, 15, 16, 17, 18, 19, 22, 23, 24, 25, 26];
+
   const calendarTitle = document.querySelector('.calendar-title');
   const prevBtn = document.querySelector('.prev-month');
   const nextBtn = document.querySelector('.next-month');
-  
-  // Elementos do progress card
-  const statElements = document.querySelectorAll('.stat');
+
+  // Não sobrescreve stats do ORTOAPP (registros de dor)
+  const statElements = document.getElementById('counter-last-pain')
+    ? []
+    : document.querySelectorAll('.stat');
   
   function updateProgressCard(daysArray, totalDaysInMonth) {
     // Calcula a maior sequência de dias seguidos

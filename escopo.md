@@ -1,9 +1,9 @@
-# Escopo do Projeto OrthoCare
+# Escopo do Projeto OrtoApp
 
 ## Visão Geral
 
 ### Objetivo do sistema
-OrthoCare é uma plataforma SaaS para gestão de acompanhamento ortopédico de pacientes e profissionais de saúde. O sistema centraliza histórico clínico, evolução da dor, exercícios terapêuticos, agenda de frequência e comunicação entre paciente, fisioterapeuta e médico.
+OrtoApp é uma plataforma SaaS para gestão de acompanhamento ortopédico de pacientes e profissionais de saúde. O sistema centraliza histórico clínico, evolução da dor, exercícios terapêuticos, agenda de frequência e comunicação entre paciente, fisioterapeuta e médico.
 
 ### Público-alvo
 - Pacientes em tratamento ortopédico
@@ -13,7 +13,7 @@ OrthoCare é uma plataforma SaaS para gestão de acompanhamento ortopédico de p
 - Administradores de serviços de saúde
 
 ### Problema que resolve
-OrthoCare resolve a falta de uma ferramenta integrada e especializada para monitorar sintomas, registrar dor, recomendar exercícios e oferecer suporte colaborativo em tempo real. A solução reduz lacunas de comunicação, melhora adesão ao plano terapêutico e traz visibilidade sobre a recuperação.
+OrtoApp resolve a falta de uma ferramenta integrada e especializada para monitorar sintomas, registrar dor, recomendar exercícios e oferecer suporte colaborativo em tempo real. A solução reduz lacunas de comunicação, melhora adesão ao plano terapêutico e traz visibilidade sobre a recuperação.
 
 ### Benefícios
 - Acompanhamento personalizado do paciente
