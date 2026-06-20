@@ -1,6 +1,6 @@
-﻿# OrthoCare - Plataforma de Acompanhamento Ortopédico
+﻿# OrtoApp - Plataforma de Acompanhamento Ortopédico
 
-OrthoCare é uma plataforma web de acompanhamento ortopédico que combina informações de pacientes, controle de sintomas, escala de dor, exercícios terapêuticos, calendário de frequência e suporte por tickets.
+OrtoApp é uma plataforma web de acompanhamento ortopédico que combina informações de pacientes, controle de sintomas, escala de dor, exercícios terapêuticos, calendário de frequência e suporte por tickets.
 
 ## Tecnologias Utilizadas
 - **Frontend:** HTML, CSS e JavaScript
@@ -12,7 +12,7 @@ OrthoCare é uma plataforma web de acompanhamento ortopédico que combina inform
 - `index.html` — página principal da aplicação
 - `style/style.css` — estilos principais
 - `php/` — endpoints de backend em PHP
-- `sql/schema.sql` — modelo de banco de dados para OrthoCare
+- `sql/schema.sql` — modelo de banco de dados para OrtoApp
 - `scripts/dev.js` — servidor de desenvolvimento local
 - `scripts/build.js` — verificação de arquivos essenciais
 
@@ -62,7 +62,7 @@ O schema de banco está em `sql/schema.sql`. Ele foi atualizado para um modelo P
 ### Importando o schema
 Se for utilizar PostgreSQL, execute o script com o cliente `psql`:
 ```bash
-psql -d orthocare -f sql/schema.sql
+psql -d ortoapp -f sql/schema.sql
 ```
 
 No ambiente local com MySQL, adapte o arquivo para compatibilidade ou use o script como referência.

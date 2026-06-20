@@ -1,5 +1,5 @@
 -- ============================================================
--- OrthoCare - Schema compatível com MariaDB/MySQL
+-- OrtoApp - Schema compatível com MariaDB/MySQL
 -- ============================================================
 
 CREATE DATABASE IF NOT EXISTS ortoapp;
