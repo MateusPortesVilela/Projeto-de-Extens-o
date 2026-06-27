@@ -108,6 +108,22 @@
       <!-- Histórico -->
       <section id="historico" class="app-section" style="display: none;">
         <h2>Histórico</h2>
+
+        <div class="progress-card">
+          <div class="stat">
+            <span class="stat-value" id="counter-last-pain">0</span>
+            <span class="stat-label">Última dor</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="counter-records">0</span>
+            <span class="stat-label">Registros</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value evolution-stat" id="progress-evolution">—</span>
+            <span class="stat-label">Evolução</span>
+          </div>
+        </div>
+
         <div id="history-list" class="history-list">
           <p class="empty-state">Nenhum registro encontrado ainda.</p>
         </div>
@@ -127,18 +143,18 @@
       <section id="progresso" class="app-section" style="display: none;">
         <h2>Progresso</h2>
 
-        <div class="progress-card">
-          <div class="stat">
-            <span class="stat-value" id="counter-last-pain">0</span>
-            <span class="stat-label">Última dor</span>
+        <div class="calendar-stats">
+          <div class="cal-stat-card">
+            <span class="cal-stat-value" id="cal-streak">0</span>
+            <span class="cal-stat-label"><i class="fas fa-fire"></i> Sequência</span>
           </div>
-          <div class="stat">
-            <span class="stat-value" id="counter-records">0</span>
-            <span class="stat-label">Registros</span>
+          <div class="cal-stat-card">
+            <span class="cal-stat-value" id="cal-total">0</span>
+            <span class="cal-stat-label"><i class="fas fa-check-circle"></i> Total</span>
           </div>
-          <div class="stat">
-            <span class="stat-value evolution-stat" id="progress-evolution">—</span>
-            <span class="stat-label">Evolução</span>
+          <div class="cal-stat-card">
+            <span class="cal-stat-value" id="cal-frequency">0%</span>
+            <span class="cal-stat-label"><i class="fas fa-percent"></i> Frequência</span>
           </div>
         </div>
 

@@ -40,6 +40,18 @@ function initProgressCalendar() {
     }
   }
 
+  function updateCalendarStats(daysArray, totalDaysInMonth) {
+    const streak = calculateCurrentStreak(daysArray);
+    const total = daysArray.length;
+    const frequency = totalDaysInMonth > 0
+      ? Math.round((total / totalDaysInMonth) * 100)
+      : 0;
+
+    $('#cal-streak').text(streak);
+    $('#cal-total').text(total);
+    $('#cal-frequency').text(frequency + '%');
+  }
+
   function calculateLongestStreak(daysArray) {
     if (daysArray.length === 0) return 0;
 
@@ -57,6 +69,24 @@ function initProgressCalendar() {
     }
 
     return maxStreak;
+  }
+
+  // Calcula a sequência atual (a partir do último dia marcado, de trás pra frente)
+  function calculateCurrentStreak(daysArray) {
+    if (daysArray.length === 0) return 0;
+
+    const sorted = [...daysArray].sort((a, b) => a - b);
+    let streak = 1;
+
+    for (let i = sorted.length - 1; i > 0; i--) {
+      if (sorted[i] === sorted[i - 1] + 1) {
+        streak++;
+      } else {
+        break;
+      }
+    }
+
+    return streak;
   }
 
   function renderCalendar(date) {
@@ -96,6 +126,7 @@ function initProgressCalendar() {
         .on('click', function () {
           toggleDay(day, $(this), completedDays);
           updateProgressCard(completedDays, lastDay.getDate());
+          updateCalendarStats(completedDays, lastDay.getDate());
         });
 
       $calendarGrid.append($dayElement);
@@ -103,6 +134,7 @@ function initProgressCalendar() {
 
     // Atualiza o progress card com as estatísticas do mês
     updateProgressCard(completedDays, lastDay.getDate());
+    updateCalendarStats(completedDays, lastDay.getDate());
   }
 
   function toggleDay(day, $element, daysArray) {
