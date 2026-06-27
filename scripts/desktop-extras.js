@@ -1,5 +1,6 @@
 /**
  * ORTOAPP - Interações extras da versão desktop (carrossel, contadores)
+ * Refatorado com jQuery
  */
 
 function initDesktopExtras() {
@@ -8,30 +9,29 @@ function initDesktopExtras() {
 }
 
 function initCarousel() {
-  const slides = document.querySelectorAll('.carousel .slide');
-  const prevBtn = document.getElementById('prev');
-  const nextBtn = document.getElementById('next');
-  if (!slides.length) return;
+  const $slides = $('.carousel .slide');
+  const $prevBtn = $('#prev');
+  const $nextBtn = $('#next');
+  if (!$slides.length) return;
 
   let current = 0;
 
   function showSlide(index) {
-    slides.forEach((s) => s.classList.remove('active'));
-    slides[index].classList.add('active');
+    $slides.removeClass('active').eq(index).addClass('active');
   }
 
-  prevBtn?.addEventListener('click', () => {
-    current = (current - 1 + slides.length) % slides.length;
+  $prevBtn.on('click', () => {
+    current = (current - 1 + $slides.length) % $slides.length;
     showSlide(current);
   });
 
-  nextBtn?.addEventListener('click', () => {
-    current = (current + 1) % slides.length;
+  $nextBtn.on('click', () => {
+    current = (current + 1) % $slides.length;
     showSlide(current);
   });
 
   setInterval(() => {
-    current = (current + 1) % slides.length;
+    current = (current + 1) % $slides.length;
     showSlide(current);
   }, 5000);
 }
@@ -48,16 +48,16 @@ function initCounters() {
 
   function animateCounters() {
     if (animated) return;
-    const progressSection = document.getElementById('progresso');
-    if (!progressSection) return;
+    const $progressSection = $('#progresso');
+    if (!$progressSection.length) return;
 
-    const rect = progressSection.getBoundingClientRect();
+    const rect = $progressSection[0].getBoundingClientRect();
     if (rect.top > window.innerHeight) return;
 
     animated = true;
     counters.forEach(({ id, target, suffix = '' }) => {
-      const el = document.getElementById(id);
-      if (!el || el.id.startsWith('counter-records') || el.id.startsWith('counter-last')) return;
+      const $el = $('#' + id);
+      if (!$el.length || id.startsWith('counter-records') || id.startsWith('counter-last')) return;
 
       let current = 0;
       const step = Math.ceil(target / 40);
@@ -67,17 +67,13 @@ function initCounters() {
           current = target;
           clearInterval(timer);
         }
-        el.textContent = current + suffix;
+        $el.text(current + suffix);
       }, 30);
     });
   }
 
-  window.addEventListener('scroll', animateCounters, { passive: true });
+  $(window).on('scroll', animateCounters);
   animateCounters();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initDesktopExtras);
-} else {
-  initDesktopExtras();
-}
+$(document).ready(initDesktopExtras);

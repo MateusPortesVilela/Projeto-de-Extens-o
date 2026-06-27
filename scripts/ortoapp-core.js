@@ -1,6 +1,7 @@
 /**
  * ORTOAPP - Lógica central (login simulado, registros, histórico, progresso)
  * Integrado com API PHP quando disponível; fallback em localStorage.
+ * Refatorado com jQuery
  */
 
 const OrtoApp = {
@@ -141,30 +142,28 @@ function refreshAllViews() {
 }
 
 function updateApiStatus() {
-  const el = document.getElementById('api-status');
-  if (!el) return;
-  el.textContent = OrtoApp.useApi
-    ? 'Conectado ao banco de dados'
-    : 'Modo offline (localStorage)';
-  el.classList.toggle('api-online', OrtoApp.useApi);
-  el.classList.toggle('api-offline', !OrtoApp.useApi);
+  const $el = $('#api-status');
+  if (!$el.length) return;
+  $el.text(OrtoApp.useApi ? 'Conectado ao banco de dados' : 'Modo offline (localStorage)');
+  $el.toggleClass('api-online', OrtoApp.useApi);
+  $el.toggleClass('api-offline', !OrtoApp.useApi);
 }
 
 function initOrtoApp() {
-  const loginScreen = document.getElementById('login-screen');
-  const appContent = document.getElementById('app-content');
+  const $loginScreen = $('#login-screen');
+  const $appContent = $('#app-content');
 
-  if (!loginScreen || !appContent) return;
+  if (!$loginScreen.length || !$appContent.length) return;
 
   if (OrtoApp.isLoggedIn()) {
     showApp();
   }
 
-  const loginForm = document.getElementById('login-form');
-  loginForm?.addEventListener('submit', (e) => {
+  // Submissão do formulário de login
+  $('#login-form').on('submit', function (e) {
     e.preventDefault();
-    const email = document.getElementById('login-email')?.value.trim();
-    const password = document.getElementById('login-password')?.value;
+    const email = $('#login-email').val().trim();
+    const password = $('#login-password').val();
     if (!email || !password) {
       showToast('Preencha e-mail e senha.');
       return;
@@ -173,34 +172,34 @@ function initOrtoApp() {
     showApp();
   });
 
-  document.getElementById('logout-btn')?.addEventListener('click', () => {
+  // Botão de logout
+  $('#logout-btn').on('click', function () {
     OrtoApp.clearSession();
-    appContent.classList.add('hidden');
-    loginScreen.classList.remove('hidden');
-    loginForm?.reset();
+    $appContent.addClass('hidden');
+    $loginScreen.removeClass('hidden');
+    $('#login-form')[0].reset();
   });
 
   initPainRange();
   initRegisterForm();
 
-  document.querySelectorAll('[data-goto]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const target = btn.getAttribute('data-goto');
-      if (typeof window.navigateToSection === 'function') {
-        window.navigateToSection(target);
-      } else {
-        const el = document.getElementById(target);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+  // Navegação via data-goto
+  $('[data-goto]').on('click', function () {
+    const target = $(this).data('goto');
+    if (typeof window.navigateToSection === 'function') {
+      window.navigateToSection(target);
+    } else {
+      const $el = $('#' + target);
+      if ($el.length) {
+        $('html, body').animate({ scrollTop: $el.offset().top }, 'smooth');
       }
-    });
+    }
   });
 }
 
 async function showApp() {
-  const loginScreen = document.getElementById('login-screen');
-  const appContent = document.getElementById('app-content');
-  loginScreen?.classList.add('hidden');
-  appContent?.classList.remove('hidden');
+  $('#login-screen').addClass('hidden');
+  $('#app-content').removeClass('hidden');
   await loadAppData();
   if (typeof window.navigateToSection === 'function') {
     window.navigateToSection('dashboard');
@@ -208,51 +207,47 @@ async function showApp() {
 }
 
 function showToast(message) {
-  let toast = document.getElementById('ortoapp-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = 'ortoapp-toast';
-    toast.className = 'ortoapp-toast';
-    document.body.appendChild(toast);
+  let $toast = $('#ortoapp-toast');
+  if (!$toast.length) {
+    $toast = $('<div>', { id: 'ortoapp-toast', class: 'ortoapp-toast' }).appendTo('body');
   }
-  toast.textContent = message;
-  toast.classList.add('visible');
-  setTimeout(() => toast.classList.remove('visible'), 2500);
+  $toast.text(message).addClass('visible');
+  setTimeout(() => $toast.removeClass('visible'), 2500);
 }
 
 function initPainRange() {
-  const range = document.getElementById('painRange');
-  const valueEl = document.getElementById('painValue');
-  const feedbackEl = document.getElementById('painFeedback');
-  if (!range) return;
+  const $range = $('#painRange');
+  const $valueEl = $('#painValue');
+  const $feedbackEl = $('#painFeedback');
+  if (!$range.length) return;
 
   function updatePainUI() {
-    const val = parseInt(range.value, 10);
-    if (valueEl) valueEl.textContent = val;
-    if (feedbackEl) feedbackEl.textContent = OrtoApp.painLabel(val);
+    const val = parseInt($range.val(), 10);
+    $valueEl.text(val);
+    $feedbackEl.text(OrtoApp.painLabel(val));
   }
 
-  range.addEventListener('input', updatePainUI);
+  $range.on('input', updatePainUI);
   updatePainUI();
 }
 
 function initRegisterForm() {
-  const form = document.getElementById('register-form');
-  if (!form) return;
+  const $form = $('#register-form');
+  if (!$form.length) return;
 
-  form.addEventListener('submit', async (e) => {
+  $form.on('submit', async function (e) {
     e.preventDefault();
-    const painLevel = parseInt(document.getElementById('painRange')?.value || '0', 10);
-    const symptoms = document.getElementById('symptoms-input')?.value.trim();
-    const notes = document.getElementById('notes-input')?.value.trim();
+    const painLevel = parseInt($('#painRange').val() || '0', 10);
+    const symptoms = $('#symptoms-input').val().trim();
+    const notes = $('#notes-input').val().trim();
 
     if (!symptoms) {
       showToast('Informe pelo menos um sintoma.');
       return;
     }
 
-    const submitBtn = form.querySelector('[type="submit"]');
-    if (submitBtn) submitBtn.disabled = true;
+    const $submitBtn = $form.find('[type="submit"]');
+    $submitBtn.prop('disabled', true);
 
     try {
       if (typeof OrtoAppApi !== 'undefined') {
@@ -271,7 +266,7 @@ function initRegisterForm() {
         showToast('Registro salvo localmente.');
       }
 
-      form.reset();
+      $form[0].reset();
       initPainRange();
     } catch (err) {
       try {
@@ -284,14 +279,14 @@ function initRegisterForm() {
         });
         refreshAllViews();
         showToast('Registro salvo localmente (banco offline).');
-        form.reset();
+        $form[0].reset();
         initPainRange();
       } catch {
         console.error('[ORTOAPP]', err);
         showToast(err.message || 'Erro ao salvar registro.');
       }
     } finally {
-      if (submitBtn) submitBtn.disabled = false;
+      $submitBtn.prop('disabled', false);
     }
   });
 }
@@ -301,33 +296,30 @@ function renderDashboard() {
   const latest = OrtoApp.getLatestRecord();
   const records = OrtoApp.getRecords();
 
-  const welcomeEl = document.getElementById('welcome-user');
-  if (welcomeEl && session) {
+  const $welcomeEl = $('#welcome-user');
+  if ($welcomeEl.length && session) {
     const name = session.email.split('@')[0];
-    welcomeEl.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+    $welcomeEl.text(name.charAt(0).toUpperCase() + name.slice(1));
   }
 
-  const painEl = document.getElementById('dashboard-pain');
-  if (painEl) painEl.textContent = latest ? latest.painLevel : '—';
+  const $painEl = $('#dashboard-pain');
+  $painEl.text(latest ? latest.painLevel : '—');
 
-  const countEl = document.getElementById('dashboard-count');
-  if (countEl) countEl.textContent = records.length;
-
-  const evolutionEl = document.getElementById('dashboard-evolution');
-  if (evolutionEl) evolutionEl.textContent = OrtoApp.getEvolutionText();
+  $('#dashboard-count').text(records.length);
+  $('#dashboard-evolution').text(OrtoApp.getEvolutionText());
 }
 
 function renderHistory() {
-  const container = document.getElementById('history-list');
-  if (!container) return;
+  const $container = $('#history-list');
+  if (!$container.length) return;
 
   const records = OrtoApp.getRecords();
   if (records.length === 0) {
-    container.innerHTML = '<p class="empty-state">Nenhum registro encontrado ainda.</p>';
+    $container.html('<p class="empty-state">Nenhum registro encontrado ainda.</p>');
     return;
   }
 
-  container.innerHTML = records.map((r) => `
+  $container.html(records.map((r) => `
     <article class="history-item">
       <div class="history-item-header">
         <span class="history-date">${OrtoApp.formatDate(r.createdAt)}</span>
@@ -336,12 +328,12 @@ function renderHistory() {
       <p><strong>Sintomas:</strong> ${escapeHtml(r.symptoms)}</p>
       ${r.notes ? `<p><strong>Observações:</strong> ${escapeHtml(r.notes)}</p>` : ''}
     </article>
-  `).join('');
+  `).join(''));
 }
 
 function renderOrientations() {
-  const container = document.getElementById('orientations-list');
-  if (!container) return;
+  const $container = $('#orientations-list');
+  if (!$container.length) return;
 
   const items = OrtoApp._orientations.length
     ? OrtoApp._orientations.map((o) => ({
@@ -351,34 +343,34 @@ function renderOrientations() {
       }))
     : OrtoApp.FALLBACK_ORIENTATIONS;
 
-  container.innerHTML = items.map((o) => `
+  $container.html(items.map((o) => `
     <div class="info-card">
       <i class="fas ${o.icon}"></i>
       <h3>${escapeHtml(o.title)}</h3>
       <p>${escapeHtml(o.text)}</p>
     </div>
-  `).join('');
+  `).join(''));
 }
 
 function renderExercises() {
-  const container = document.getElementById('exercise-grid');
-  if (!container || !OrtoApp._exercises.length) return;
+  const $container = $('#exercise-grid');
+  if (!$container.length || !OrtoApp._exercises.length) return;
 
-  container.innerHTML = OrtoApp._exercises.map((ex) => `
+  $container.html(OrtoApp._exercises.map((ex) => `
     <div class="exercise-card">
       <h3>${escapeHtml(ex.title)}</h3>
       ${ex.duration ? `<span>${ex.duration} min</span>` : ''}
       <p>${escapeHtml(ex.level)}${ex.description ? ' — ' + escapeHtml(ex.description) : ''}</p>
       <button class="start-btn" type="button">Iniciar</button>
     </div>
-  `).join('');
+  `).join(''));
 }
 
 function renderReminders() {
-  const container = document.getElementById('reminders-list');
-  if (!container) return;
+  const $container = $('#reminders-list');
+  if (!$container.length) return;
 
-  container.innerHTML = OrtoApp.REMINDERS.map((r) => `
+  $container.html(OrtoApp.REMINDERS.map((r) => `
     <div class="reminder-item">
       <div class="reminder-icon"><i class="fas ${r.icon}"></i></div>
       <div class="reminder-content">
@@ -386,31 +378,21 @@ function renderReminders() {
         <p>${r.text}</p>
       </div>
     </div>
-  `).join('');
+  `).join(''));
 }
 
 function renderProgress() {
   const latest = OrtoApp.getLatestRecord();
   const records = OrtoApp.getRecords();
 
-  const evolutionText = document.getElementById('progress-evolution');
-  if (evolutionText) evolutionText.textContent = OrtoApp.getEvolutionText();
-
-  const counter2 = document.getElementById('counter-records');
-  if (counter2) counter2.textContent = records.length;
-
-  const counter1 = document.getElementById('counter-last-pain');
-  if (counter1) counter1.textContent = latest ? latest.painLevel : 0;
+  $('#progress-evolution').text(OrtoApp.getEvolutionText());
+  $('#counter-records').text(records.length);
+  $('#counter-last-pain').text(latest ? latest.painLevel : 0);
 }
 
 function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+  return $('<div>').text(text).html();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initOrtoApp);
-} else {
-  initOrtoApp();
-}
+// Executa quando o DOM estiver pronto
+$(document).ready(initOrtoApp);

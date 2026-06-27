@@ -1,35 +1,30 @@
 /**
  * App Navigation Script
  * Gerencia a navegação entre abas no app mobile
+ * Refatorado com jQuery
  */
 
 function initAppNavigation() {
-  const navItems = document.querySelectorAll('.nav-item');
-  const sections = document.querySelectorAll('.app-section');
-  const navigationButtons = document.querySelectorAll('[data-section]');
+  const $navItems = $('.nav-item');
+  const $sections = $('.app-section');
+  const $navigationButtons = $('[data-section]');
 
-  if (!navItems.length) return;
+  if (!$navItems.length) return;
 
   function navigateToSection(sectionId) {
-    // Remove classe active de todos os itens
-    navItems.forEach(nav => nav.classList.remove('active'));
-    
+    // Remove classe active de todos os itens de navegação
+    $navItems.removeClass('active');
+
     // Esconde todas as seções
-    sections.forEach(section => {
-      section.style.display = 'none';
-    });
-    
-    // Encontra e ativa o nav item correspondente
-    const activeNav = document.querySelector(`[data-section="${sectionId}"]`);
-    if (activeNav && activeNav.classList.contains('nav-item')) {
-      activeNav.classList.add('active');
-    }
-    
-    // Mostra a seção correspondente
-    const targetSection = document.getElementById(sectionId);
-    if (targetSection) {
-      targetSection.style.display = 'block';
-      // Scroll to top
+    $sections.hide();
+
+    // Ativa o nav item correspondente
+    $(`[data-section="${sectionId}"].nav-item`).addClass('active');
+
+    // Mostra a seção correspondente e rola para o topo
+    const $target = $('#' + sectionId);
+    if ($target.length) {
+      $target.show();
       window.scrollTo(0, 0);
     }
   }
@@ -37,36 +32,29 @@ function initAppNavigation() {
   window.navigateToSection = navigateToSection;
 
   // Navegação via navbar
-  navItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const sectionId = item.getAttribute('data-section');
-      navigateToSection(sectionId);
-    });
+  $navItems.on('click', function () {
+    navigateToSection($(this).data('section'));
   });
 
-  // Navegação via buttons com data-section
-  navigationButtons.forEach(button => {
-    if (!button.classList.contains('nav-item')) {
-      button.addEventListener('click', (e) => {
-        const sectionId = button.getAttribute('data-section');
-        navigateToSection(sectionId);
+  // Navegação via botões com data-section (que não são nav-item)
+  $navigationButtons.each(function () {
+    const $btn = $(this);
+    if (!$btn.hasClass('nav-item')) {
+      $btn.on('click', function () {
+        navigateToSection($btn.data('section'));
       });
     }
   });
 
   // Só inicia navegação se o app estiver visível (logado)
-  if (navItems.length > 0 && !document.getElementById('login-screen')?.classList.contains('hidden')) {
+  if ($navItems.length > 0 && !$('#login-screen').hasClass('hidden')) {
     return;
   }
 
-  if (navItems.length > 0) {
-    navItems[0].click();
+  if ($navItems.length > 0) {
+    $navItems.first().trigger('click');
   }
 }
 
 // Executa quando o DOM estiver pronto
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initAppNavigation);
-} else {
-  initAppNavigation();
-}
+$(document).ready(initAppNavigation);
